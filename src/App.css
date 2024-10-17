@@ -1,0 +1,9 @@
+.bgImg {
+  background-image: linear-gradient(233deg, #00eeff, #e423aa);
+  width: 100%;
+  height: 100%;
+}
+
+.custom-width {
+  width: "70%";
+}
