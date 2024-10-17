@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios";
 import Current from "./components/Current";
 import Forecast from "./components/Forecast";
+import "../node_modules/bootstrap/dist/js/bootstrap";
 const App = () => {
   const [city, setCity] = useState("");
   const [weatherSuggested, setWeatherSuggeted] = useState([]);
@@ -108,7 +109,7 @@ const App = () => {
         })}
 
       {current && <Current current={current} location={location} />}
-      {forecast && <Forecast forecast={forecast} />}
+      {forecast && <Forecast forecast={forecast} location={location} />}
     </div>
   );
 };

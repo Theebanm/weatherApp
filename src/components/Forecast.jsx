@@ -1,64 +1,98 @@
 import React from "react";
 
-const Forecast = ({ forecast }) => {
+const Forecast = ({ forecast, location }) => {
   const { forecastday } = forecast;
+
   return (
     <div>
-      <h1 className="mt-5 border">Forecast</h1>
-
+      <h3 className="pt-3 border rounded m-2 p-2">
+        Current Weather Of " {location.name},{location.region},
+        {location.country}"{" "}
+      </h3>
       {forecastday.map((day, i) => {
         const {
           date,
-
+          hour,
           day: {
-            avgtemp_c,
-            avgtemp_f,
-            uv,
+            condition: { text, icon },
             maxtemp_c,
             maxtemp_f,
-            mintemp_c,
-            mintemp_f,
           },
           astro: { sunrise, sunset },
         } = day;
-        return (
-          <div key={i} className="border p-3 mt-2">
-            <div className="row">
-              {/* this row used to display the date and sunrise and sunset */}
-              <div className="row  p-3 ml-3 border-bottom border-info">
-                <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                  <h4 className="d-inline-block"> Date : {date}</h4>
-                </div>
-                <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                  <h4 className="d-inline-block"> Sunrise : {sunrise}</h4>
-                </div>
-                <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                  <h4 className="d-inline-block"> Sunset : {sunset}</h4>
-                </div>
-                <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                  <h4 className="d-inline-block">UV : {uv}</h4>
-                </div>
-              </div>
 
-              {/* this row is used to display the weather condition */}
-              <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                <img
-                  src={day?.day.condition.icon}
-                  alt={day?.day.condition.text}
-                />
-                <h4>{day?.day.condition.text}</h4>
-              </div>
-              <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                <h4>Avg Temp °C: {avgtemp_c} </h4>
-                <h4>Avg Temp °F: {avgtemp_f} </h4>
-              </div>
-              <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                <h4>Min Temp °C: {mintemp_c} </h4>
-                <h4>Max Temp °C: {maxtemp_c} </h4>
-              </div>
-              <div className="col-12 gap-3 col-md-6 col-lg-3 p-2">
-                <h4>Min Temp °F: {mintemp_f} </h4>
-                <h4>Max Temp °F: {maxtemp_f} </h4>
+        return (
+          <div
+            key={i}
+            className="accordion accordion-flush "
+            id="accordionFlushExample"
+          >
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="flush-headingOne">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#${i}`}
+                  aria-expanded="false"
+                  aria-controls="flush-collapseOne"
+                >
+                  <div className="d-flex flex-column flex-md-row align-items-center bd-highlight mb-3">
+                    <div className="p-2 bd-highlight">
+                      {" "}
+                      <h6>{date}</h6>
+                    </div>
+                    <div className="p-3 bd-highlight">
+                      <img src={icon} alt={text} />
+                      <h6> {text}</h6>
+                    </div>
+                    <div className="p-3 bd-highlight">
+                      <h6>Max Temp in C: {maxtemp_c}</h6>
+                    </div>
+                    <div className="p-3 bd-highlight">
+                      <h6>Max Temp in F: {maxtemp_f}</h6>
+                    </div>
+                    <div className="p-3 bd-highlight">
+                      <h6>Sunrise : {sunrise}</h6>
+                      <h6>Sunset : {sunset}</h6>
+                    </div>
+                  </div>
+                </button>
+              </h2>
+              <div
+                id={`${i}`}
+                className="accordion-collapse collapse"
+                aria-labelledby="flush-headingOne"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div className="accordion-body">
+                  {hour &&
+                    hour.map((hour, i) => {
+                      const {
+                        temp_c,
+                        time,
+                        condition: { text, icon },
+                      } = hour;
+                      return (
+                        <>
+                          <h6>
+                            Time : {time} / Temp : {temp_c}
+                          </h6>
+
+                          <div className="progress ">
+                            <div
+                              className="progress-bar"
+                              role="progressbar"
+                              style={{ width: `${temp_c}%` }}
+                              aria-valuenow="50"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                            ></div>
+                          </div>
+                        </>
+                      );
+                    })}
+                </div>
               </div>
             </div>
           </div>
